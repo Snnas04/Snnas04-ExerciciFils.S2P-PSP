@@ -1,33 +1,39 @@
-public class Exercici2 extends Thread {
-    private static int[] compte = {1000};
+package Ex2;
 
-    public static void main(String[] args) {
-        Exercici2 filSuma = new Exercici2();
-        filSuma.setName("Fil suma");
+public class Exercici2 implements Runnable {
 
-        Exercici2 filResta = new Exercici2();
-        filResta.setName("Fil resta");
+    private Comptes xobj;
 
-        filSuma.start();
-        filResta.start();
+    public Exercici2(Comptes m) {
+        xobj=m;
     }
 
-    public void run() {
-        int registre;
+    public void run(){
+        int valInicial = 100;
+        xobj.setSuma(valInicial);
+        xobj.setResta(valInicial);
+        System.out.println("Tirada fil " + Thread.currentThread().getName() + ": " + valInicial);
+    }
 
-        synchronized (compte) {
-            System.out.println(getName() + " => compte: " + compte[0]);
-            registre = compte[0];
+    public static void main(String[] args) throws InterruptedException {
+        Comptes ans=new Comptes(0);
 
-            if (getName().equals("Fil suma")) {
-                registre += 10;
-            } else if (getName().equals("Fil resta")) {
-                registre -= 10;
-            }
+        Exercici2 obj1 = new Exercici2(ans);
+        Exercici2 obj2 = new Exercici2(ans);
 
-            System.out.println(getName() + " => registre: " + registre);
-            compte[0] = registre;
-            System.out.println(getName() + " => compte: " + compte[0]);
-        }
+        Thread fil_1 = new Thread(obj1);
+        fil_1.setName("Suma");
+        Thread fil_2 = new Thread(obj2);
+        fil_2.setName("Resta");
+
+        fil_1.start();
+        fil_2.start();
+
+         fil_1.join(); //Espera el fil_1 que el fil principal, el que l'ha invocat acabi
+         fil_2.join();
+
+        System.out.println("Total tirada: "+ ans.getSuma());
+        System.out.println("Final Fil Principal");
+
     }
 }
