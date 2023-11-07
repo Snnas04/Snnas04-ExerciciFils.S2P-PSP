@@ -2,8 +2,8 @@ package Ex3;
 
 public class Programa {
     public static void main(String[] args) {
-//        prueba1();
-        prueba2();
+        prueba1();
+//        prueba2();
     }
 
     public static void prueba1() {

@@ -20,13 +20,16 @@ public class Exercici4 extends Thread {
         Thread fil_1 = new Thread(obj1);
         fil_1.start();
 
-        String exit = sc.nextLine();
-        if (exit.equals("exit")) {
-            fil_1.interrupt();
-            System.out.println("Fil interrumpit");
+        while (true) {
+            String exit = sc.nextLine();
+            if (exit.equals("exit")) {
+                fil_1.interrupt();
+                System.out.println("Fil interrumpit");
+                break;
+            }
         }
 
-        sc.close();
+        System.out.println("Proces finalitzat");
     }
 
     public void run() {
@@ -45,7 +48,6 @@ public class Exercici4 extends Thread {
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {
-                System.out.println("Proces finalitzat");
                 break;
             }
         }
