@@ -25,6 +25,7 @@ public class Exercici4 extends Thread {
             if (exit.equals("exit")) {
                 fil_1.interrupt();
                 System.out.println("Fil interrumpit");
+                sc.close();
                 break;
             }
         }
@@ -33,20 +34,32 @@ public class Exercici4 extends Thread {
     }
 
     public void run() {
+        int sleepTime = 1500;
         int num1 = 0;
         int num2 = 1;
         int suma = 0;
 
         System.out.println(1);
 
+        try {
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {
+        }
+
         while (suma < n) {
             suma = num1 + num2;
             num1 = num2;
             num2 = suma;
-            System.out.println(suma);
+
+            if (suma < n) {
+                System.out.println(suma);
+            } else {
+                System.out.println("Proces finalitzat");
+                break;
+            }
 
             try {
-                Thread.sleep(1500);
+                Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
                 break;
             }
