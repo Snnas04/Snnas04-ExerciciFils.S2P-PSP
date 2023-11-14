@@ -25,11 +25,10 @@ public class Exercici4 extends Thread {
             if (exit.equals("exit")) {
                 fil_1.interrupt();
                 System.out.println("Fil interrumpit");
-                sc.close();
                 break;
             }
         }
-
+        sc.close();
         System.out.println("Proces finalitzat");
     }
 

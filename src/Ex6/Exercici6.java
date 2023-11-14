@@ -1,47 +1,39 @@
 package Ex6;
 
-import Ex4.Exercici4;
+import java.util.Random;
+import java.util.Scanner;
 
-public class Exercici6 implements Runnable {
-    private Random robj;
-
-    public Exercici6(Random n) {
-        robj = n;
-    }
-
+public class Exercici6 {
     public static void main(String[] args) {
-        Random num = new Random(10);
+        int totalNumbers = 3;
 
-        Exercici6 obj1 = new Exercici6(num);
-        Exercici6 obj2 = new Exercici6(num);
+        RandomNumberThread thread1 = new RandomNumberThread(totalNumbers);
+        RandomNumberThread thread2 = new RandomNumberThread(totalNumbers);
 
-        Thread fil_1 = new Thread(obj1);
-        fil_1.setName("Fil 1");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Presiona 'q' per interrumpir");
 
-        Thread fil_2 = new Thread(obj2);
-        fil_2.setName("Fil 2");
+        thread1.start();
+        thread1.setName("Fil1");
+        thread2.start();
+        thread2.setName("Fil2");
 
-        fil_1.start();
-        fil_2.start();
+        while (thread1.isAlive()) {
+            String input = scanner.nextLine();
+            if (input.equals("q")) {
+                thread1.interrupt();
+                thread2.interrupt();
+                break;
+            }
+        }
 
         try {
-            fil_1.join();
-            fil_2.join();
+            thread1.join();
+            thread2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Final Fil Principal");
-    }
-
-    @Override
-    public void run() {
-        try {
-            Thread.sleep(1000);
-            int resultat = (int) (Math.random() * 10) + 1;
-            robj.setNum(resultat);
-            System.out.println(Thread.currentThread().getName() + ": ");
-        } catch (InterruptedException e) {
-        }
+        System.out.println("Programa finalizado.");
     }
 }
